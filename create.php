@@ -8,11 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $owner = htmlspecialchars($_POST['owner_contact'] ?? '');
     $desc = htmlspecialchars($_POST['description'] ?? '');
 
-    // Image Upload Logic
+    // Image upload logic
     $image_name = 'default.jpg';
     if (!empty($_FILES['image']['name'])) {
         $image_name = time() . '_' . $_FILES['image']['name'];
-        // Ensure you have an 'uploads' folder in your directory
+       // put uploaded file to uploads folder
         move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $image_name);
     }
 

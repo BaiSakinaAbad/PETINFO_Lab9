@@ -37,7 +37,6 @@ if (!$pet) {
             min-height: 100vh;
         }
 
-        /* White inner container */
         .profile-container {
             background-color: #ffffff;
             padding: 40px 30px;
@@ -46,11 +45,6 @@ if (!$pet) {
             text-align: center;
         }
 
-        /* Action buttons footer */
-        .action-links {
-            margin-top: 40px;
-            margin: 10px;
-        }
 
         .pet-name {
             color: #4392f1;
@@ -80,17 +74,16 @@ if (!$pet) {
         <p class="text-info">Owner: <strong><?= $pet['owner_contact'] ?></strong></p>
         <p class="text-info">Description: <strong><?= $pet['description'] ?></strong></p>
 
-        <div class="action-links">
+       
             <button class="btn btn-success"><a href="index.php">Dashboard</a> </button>
            
             <button class="btn btn-warning"><a href="edit.php?id=<?= $pet['id'] ?>">Edit</a> </button>
 
             <form action="delete.php" method="POST" style="display:inline;">
                 <input type="hidden" name="_method" value="delete"> <input type="hidden" name="id"
-                    value="<?= $post['id'] ?>"> <button type="submit" class="btn btn-danger"
+                    value="<?= $pet['id'] ?>"> <button type="submit" class="btn btn-danger"
                     onclick="return confirm('Delete this record?')">Delete</button>
-            </form>
-        </div>
+     </form>
     </div>
 
 </body>

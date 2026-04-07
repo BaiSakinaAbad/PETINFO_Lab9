@@ -13,22 +13,27 @@ $pets = $stm->fetchAll();
 
     <style>
         body { background-color: #C4FFFC; color: #242424; }
-        .navbar { background-color: #242424; border: none; border-radius: 0; }
-        .navbar-brand { color: #FFFFFF !important; font-weight: bold; }
         .pet-card { background: #FFFFFF; border-radius: 8px; padding: 15px; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
         .pet-card:hover { transform: translateY(-5px); }
         .img-container { height: 180px; overflow: hidden; margin: -15px -15px 15px -15px; border-radius: 8px 8px 0 0; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-primary { background-color: #4392f1; border: none; }
+     /*   .btn-primary { background-color: #4392f1; border: none; } */
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-inverse">
   <div class="container">
-    <a class="navbar-brand" href="index.php">PETCARE SYSTEM</a>
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.php">PETCARE SYSTEM</a>
+    </div>
+
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="create.php" style="color: #C4FFFC;">+ Register Pet</a></li>
+      <li>
+        <a href="create.php" style="color: #C4FFFC;">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Register Pet
+        </a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -44,7 +49,7 @@ $pets = $stm->fetchAll();
                 <h4 style="color: #4392f1; font-weight: bold;"><?= $pet['name'] ?></h4>
                 <p><span class="label label-info"><?= $pet['species'] ?></span></p>
                 <p><strong>Owner:</strong> <?= $pet['owner_contact'] ?></p>
-                <a href="selected.php?id=<?= $pet['id'] ?>" class="btn btn-primary btn-sm btn-block">Details</a>
+                <a href="selected.php?id=<?= $pet['id'] ?>" class="btn btn-info btn-block">Details</a>
             </div>
         </div>
         <?php endforeach; ?>
