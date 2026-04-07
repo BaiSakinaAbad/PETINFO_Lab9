@@ -1,6 +1,17 @@
 <?php 
 include('database.php'); 
-$stm = $pdo->query('SELECT * FROM pets ORDER BY created_at DESC');
+
+$search = $_GET['search'] ?? '';
+
+// Use !== '' to check if the string is NOT empty
+if ($search !== '') {
+    $sql = "SELECT * FROM pets WHERE species LIKE :search ORDER BY created_at DESC";
+    $stm = $pdo->prepare($sql);
+    $stm->execute(['search' => '%' . $search . '%']);
+} else {
+    $stm = $pdo->query('SELECT * FROM pets ORDER BY created_at DESC');
+}
+
 $pets = $stm->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -9,15 +20,13 @@ $pets = $stm->fetchAll();
     <meta charset="UTF-8">
     <title>PetCare | Dashboard</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
-
     <style>
         body { background-color: #C4FFFC; color: #242424; }
-        .pet-card { background: #FFFFFF; border-radius: 8px; padding: 15px; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
+        .pet-card { background: #FFFFFF; border-radius: 8px; padding: 15px; margin-bottom: 30px; transition: 0.3s; }
         .pet-card:hover { transform: translateY(-5px); }
         .img-container { height: 180px; overflow: hidden; margin: -15px -15px 15px -15px; border-radius: 8px 8px 0 0; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; }
-     /*   .btn-primary { background-color: #4392f1; border: none; } */
+        .navbar-form { border: none; box-shadow: none; }
     </style>
 </head>
 <body>
@@ -27,6 +36,16 @@ $pets = $stm->fetchAll();
     <div class="navbar-header">
       <a class="navbar-brand" href="index.php">PETCARE SYSTEM</a>
     </div>
+
+    <form class="navbar-form navbar-left" role="search" method="GET" action="index.php">
+      <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search pets by species" value="<?= htmlspecialchars($search) ?>">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
+      </div>
+    </form>
 
     <ul class="nav navbar-nav navbar-right">
       <li>
@@ -39,6 +58,10 @@ $pets = $stm->fetchAll();
 </nav>
 
 <div class="container">
+    <?php if (empty($pets)): ?>
+        <div class="alert alert-warning">No pets found matching "<strong><?= htmlspecialchars($search) ?></strong>"</div>
+    <?php endif; ?>
+
     <div class="row">
         <?php foreach ($pets as $pet): ?>
         <div class="col-sm-6 col-md-4">
